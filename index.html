@@ -12,7 +12,7 @@
 
 </head>
 <body>
-    <div class="main_container">
+    <div class="main_container" id="main-container">
         <div class="tic_tac_image">
             <img src="assets/icon-x.svg">
             <img src="assets/icon-o.svg">
@@ -29,14 +29,14 @@
         <button class="new_game cpu" id="cpu">NEW GAME (VS CPU)</button>
         <button class="new_game player" id="player">NEW GAME (VS PLAYER)</button>
     </div>
-    <div class="game_box">
+    <div class="game_box" id="game-box">
         <div class="first_row">
             <div class="xoimages">
                 <img src="assets/icon-x.svg">
                 <img src="assets/icon-o.svg">
             </div>
             <div class="turn_indicator">
-                <img src="assets/icon-x.svg">
+                <img src="assets/icon-x.svg" class="current_turn">
                 <span>TURN</span>
             </div>
             <div class="refresh_area">
@@ -63,15 +63,15 @@
         </div>
         <div class="third_row">
             <div class="result" id="xscore">
-                <p id="xindicator">1</p>
+                <p id="xindicator"></p>
                 <p id="xresult">0</p>
             </div>
             <div class="result" id="ties">
-                <p id="tieindicator">1</p>
+                <p id="tieindicator"></p>
                 <p id="tieresult">0</p>
             </div>
             <div class="result" id="oscore">
-                <p id="oindicator">1</p>
+                <p id="oindicator"></p>
                 <p id="oresult">0</p>
             </div>
         </div>
