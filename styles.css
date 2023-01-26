@@ -58,18 +58,26 @@ text-transform: uppercase;
     margin-left: 5.3%;
     margin-right: 5.3%;
     border-radius: 10px;
+    height: 72px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 .pick_mark_inner{
     background-color: transparent;
     border-color: transparent;
     width: 48%;
     cursor: pointer;
+    height: 52px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     border-radius: 10px;
 }
 .pick_mark_inner img {
     width: 32px;
-    margin-top: 20px;
-    margin-bottom: 20px;
+    
 }
 .turn_reminder {
     color: #A8BFC9;
