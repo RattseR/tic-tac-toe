@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html>
-<head>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;700&display=swap" rel="stylesheet">
 <title>Tic-Tac-Toe</title>
 <link rel="stylesheet" href="styles.css">
-<!--<script src="script.js"></script>-->
+
 </head>
 <body>
     <div class="main_container">
@@ -19,7 +22,7 @@
             <h4>PICK PLAYER 1'S MARK</h4>
             <div class="pick_mark_outer">
                 <button class="pick_mark_inner" id="xmark"><img src="assets/icon-x.svg" id="xmark_img"></button>
-                <button class="pick_mark_inner" id="ymark"><img src="assets/icon-o.svg" id="omark_img"></button>
+                <button class="pick_mark_inner" id="omark"><img src="assets/icon-o.svg" id="omark_img"></button>
             </div>
             <p class="turn_reminder">REMEMBER: X GOES FIRST</p>
         </div>
@@ -73,5 +76,6 @@
             </div>
         </div>
     </div>
+    <script src="./script.js"></script>
 </body>
 </html>
