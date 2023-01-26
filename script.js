@@ -91,6 +91,7 @@ body[0].appendChild(popupouter);
 function startplayergame(){
     if(!document.querySelector('.active')){
         alert('pick sign');
+        document.getElementById('player').addEventListener ('click', startplayergame,{once : true});
     } else {
         document.getElementById('game-box').style.display = 'flex';
         document.getElementById('main-container').style.display = 'none';
@@ -113,10 +114,14 @@ function startplayergame(){
     //setting event listener to each tic box
     let ticboxes = document.querySelectorAll('.tic_box');
     for (let element of ticboxes){
+        element.addEventListener('mouseover', hoverImage);
+    element.addEventListener('mouseout', mouseOutImage);
+
         element.addEventListener('click', (ev)=>{
             
             if(counter%2==1){
                if(!ev.target.classList.contains('markedx')&&!ev.target.classList.contains('markedo')){ 
+                ev.target.removeEventListener('mouseover',hoverImage);
                 let ximage = document.createElement('img');
                 ximage.src = 'assets/icon-x.svg';
                 ev.target.appendChild(ximage);
@@ -126,6 +131,7 @@ function startplayergame(){
                }
             } else {
                 if(!ev.target.classList.contains('markedx')&&!ev.target.classList.contains('markedo')){
+                ev.target.removeEventListener('mouseover',hoverImage);
                 let oimage = document.createElement('img');
                 oimage.src = 'assets/icon-o.svg';
                 ev.target.appendChild(oimage);
@@ -185,7 +191,7 @@ function startplayergame(){
 
 }
 
-document.getElementById('player').addEventListener ('click', startplayergame);
+document.getElementById('player').addEventListener ('click', startplayergame,{once : true});
 
 //adding eventlistener to quit game
 
@@ -195,11 +201,13 @@ function quitGame() {
     for (let element of ticbox){
         if(element.classList.contains('markedx')||element.classList.contains('markedo')){
             element.style.backgroundColor = '#1F3641';
+            element.style.backgroundImage = 'none';
             element.querySelector('img').remove();
             element.classList.remove('markedx');
             element.classList.remove('markedo');
         }
     }
+    document.getElementById('player').addEventListener ('click', startplayergame,{once : true});
     document.getElementById('xresult').innerHTML='0';
     document.getElementById('oresult').innerHTML='0';
     document.getElementById('tieresult').innerHTML='0';
@@ -220,7 +228,9 @@ function nextMatch(){
     let ticbox = document.querySelectorAll('.tic_box');
     for (let element of ticbox){
         if(element.classList.contains('markedx')||element.classList.contains('markedo')){
+            element.addEventListener('mouseover',hoverImage);
             element.style.backgroundColor = '#1F3641';
+            element.style.backgroundImage = 'none';
             element.querySelector('img').remove();
             element.classList.remove('markedx');
             element.classList.remove('markedo');
@@ -231,3 +241,25 @@ function nextMatch(){
 }
 
 document.getElementById('next-round').addEventListener('click', nextMatch)
+
+//adding mouseover on ticbox;
+
+function hoverImage (event){
+    let hoverimg = document.createElement('img');
+    
+    if(!event.target.classList.contains('markedx')&&!event.target.classList.contains('markedo')){
+        if(counter%2==1){
+            
+            event.target.style.backgroundImage = "url('assets/icon-x-outline.svg')";
+        } else {
+            event.target.style.backgroundImage = "url('assets/icon-o-outline.svg')";
+        }
+    }
+}
+
+function mouseOutImage (event) {
+    if(!event.target.classList.contains('markedx')&&!event.target.classList.contains('markedo')){
+        event.target.style.backgroundImage = "none";
+    }
+}
+
