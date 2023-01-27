@@ -91,22 +91,24 @@ body[0].appendChild(popupouter);
 function startplayergame(){
     if(!document.querySelector('.active')){
         alert('pick sign');
-        document.getElementById('player').addEventListener ('click', startplayergame,{once : true});
+        document.getElementById('player').addEventListener('click', startplayergame,{once : true});
     } else {
         document.getElementById('game-box').style.display = 'flex';
         document.getElementById('main-container').style.display = 'none';
         if(document.querySelector('.active').id=="xmark"){
-            document.getElementById('xindicator').innerHTML='X (P1)'
-            document.getElementById('tieindicator').innerHTML='TIES'
-            document.getElementById('oindicator').innerHTML='O (P2)'
-            document.getElementById('xindicator').setAttribute('playerindicator','PLAYER 1')
-            document.getElementById('oindicator').setAttribute('playerindicator','PLAYER 2')
+            document.getElementById('xindicator').innerHTML='X (P1)';
+            document.getElementById('tieindicator').innerHTML='TIES';
+            document.getElementById('oindicator').innerHTML='O (P2)';
+            document.getElementById('xindicator').setAttribute('playerindicator','PLAYER 1');
+            document.getElementById('oindicator').setAttribute('playerindicator','PLAYER 2');
+           
         } else {
-            document.getElementById('xindicator').innerHTML='X (P2)'
-            document.getElementById('tieindicator').innerHTML='TIES'
-            document.getElementById('oindicator').innerHTML='O (P1)'
-            document.getElementById('xindicator').setAttribute('playerindicator','PLAYER 2')
-            document.getElementById('oindicator').setAttribute('playerindicator','PLAYER 1')
+            document.getElementById('xindicator').innerHTML='X (P2)';
+            document.getElementById('tieindicator').innerHTML='TIES';
+            document.getElementById('oindicator').innerHTML='O (P1)';
+            document.getElementById('xindicator').setAttribute('playerindicator','PLAYER 2');
+            document.getElementById('oindicator').setAttribute('playerindicator','PLAYER 1');
+            
         }
     }
 
@@ -159,6 +161,7 @@ function startplayergame(){
                         winnerparagraph.innerHTML = 'TAKES THE ROUND';
                         winnerimage.style.display = 'block';
                         winnerimage.src = currentticboxes[element[0]-1].querySelector('img').src;
+                        counter=1;
                     } else if ((currentticboxes[element[0]-1].classList.contains('markedo')&&currentticboxes[element[1]-1].classList.contains('markedo')&&currentticboxes[element[2]-1].classList.contains('markedo'))){
                         currentticboxes[element[0]-1].style.backgroundColor='#F2B137';
                         currentticboxes[element[1]-1].style.backgroundColor='#F2B137';
@@ -174,6 +177,7 @@ function startplayergame(){
                         winnerparagraph.innerHTML = 'TAKES THE ROUND';
                         winnerimage.style.display = 'block';
                         winnerimage.src = currentticboxes[element[0]-1].querySelector('img').src;
+                        counter=1;
                     } else {
                         if (counter==10) {
                             document.getElementById('tieresult').innerHTML=parseInt(document.getElementById('tieresult').innerHTML)+1;
