@@ -118,7 +118,7 @@ function startplayergame(){
     for (let element of ticboxes){
         element.addEventListener('mouseover', hoverImage);
     element.addEventListener('mouseout', mouseOutImage);
-
+    element.removeEventListener('click', cputicboxclick);
         element.addEventListener('click', (ev)=>{
             
             if(counter%2==1){
@@ -197,6 +197,140 @@ function startplayergame(){
 
 document.getElementById('player').addEventListener ('click', startplayergame,{once : true});
 
+
+//adding CPU button event listener
+function checkwin(){
+    
+        let currentticboxes = document.querySelectorAll('.tic_box');
+        for (let element of winningCombination){
+             if((currentticboxes[element[0]-1].classList.contains('markedx')&&currentticboxes[element[1]-1].classList.contains('markedx')&&currentticboxes[element[2]-1].classList.contains('markedx'))){
+             
+                return true;
+            } else if ((currentticboxes[element[0]-1].classList.contains('markedo')&&currentticboxes[element[1]-1].classList.contains('markedo')&&currentticboxes[element[2]-1].classList.contains('markedo'))){
+            
+                return true;
+            } else  {
+                return false;
+            }
+        }     
+}
+function wincpu(){
+    if(counter>5){
+        let currentticboxes = document.querySelectorAll('.tic_box');
+        for (let element of winningCombination){
+             if((currentticboxes[element[0]-1].classList.contains('markedx')&&currentticboxes[element[1]-1].classList.contains('markedx')&&currentticboxes[element[2]-1].classList.contains('markedx'))){
+                currentticboxes[element[0]-1].style.backgroundColor='#31C3BD';
+                currentticboxes[element[1]-1].style.backgroundColor='#31C3BD';
+                currentticboxes[element[2]-1].style.backgroundColor='#31C3BD';
+                currentticboxes[element[0]-1].querySelector('img').classList.add('darksvg');
+                currentticboxes[element[1]-1].querySelector('img').classList.add('darksvg');
+                currentticboxes[element[2]-1].querySelector('img').classList.add('darksvg');
+                document.getElementById('xresult').innerHTML=parseInt(document.getElementById('xresult').innerHTML)+1;
+                resultoutput.style.display='block';
+                resultoutput.innerHTML = document.getElementById('xindicator').getAttribute('playerindicator')+' WINS!';
+                popupouter.style.display = 'flex';
+                winnerparagraph.style.color = '#31C3BD';
+                winnerparagraph.innerHTML = 'TAKES THE ROUND';
+                winnerimage.style.display = 'block';
+                winnerimage.src = currentticboxes[element[0]-1].querySelector('img').src;
+                counter=1;
+            } else if ((currentticboxes[element[0]-1].classList.contains('markedo')&&currentticboxes[element[1]-1].classList.contains('markedo')&&currentticboxes[element[2]-1].classList.contains('markedo'))){
+                currentticboxes[element[0]-1].style.backgroundColor='#F2B137';
+                currentticboxes[element[1]-1].style.backgroundColor='#F2B137';
+                currentticboxes[element[2]-1].style.backgroundColor='#F2B137';
+                currentticboxes[element[0]-1].querySelector('img').classList.add('darksvg');
+                currentticboxes[element[1]-1].querySelector('img').classList.add('darksvg');
+                currentticboxes[element[2]-1].querySelector('img').classList.add('darksvg');
+                document.getElementById('oresult').innerHTML=parseInt(document.getElementById('oresult').innerHTML)+1;
+                resultoutput.style.display='block';
+                resultoutput.innerHTML = document.getElementById('oindicator').getAttribute('playerindicator')+' WINS!';
+                popupouter.style.display = 'flex';
+                winnerparagraph.style.color = '#F2B137';
+                winnerparagraph.innerHTML = 'TAKES THE ROUND';
+                winnerimage.style.display = 'block';
+                winnerimage.src = currentticboxes[element[0]-1].querySelector('img').src;
+                counter=1;
+            } else {
+                if (counter==10) {
+                    document.getElementById('tieresult').innerHTML=parseInt(document.getElementById('tieresult').innerHTML)+1;
+                    popupouter.style.display = 'flex';
+                    resultoutput.style.display='none';
+                    winnerimage.style.display = 'none';
+                    winnerparagraph.innerHTML = 'ROUND TIED';
+                    counter=1;
+                }
+            }
+        }
+    }
+}
+function startcpugame(){
+    if(!document.querySelector('.active')){
+        alert('pick sign');
+        
+    } else {
+        document.getElementById('game-box').style.display = 'flex';
+        //document.getElementById('main-container').style.display = 'none';
+        if(document.querySelector('.active').id=="xmark"){
+            document.getElementById('xindicator').innerHTML='X (P1)';
+            document.getElementById('tieindicator').innerHTML='TIES';
+            document.getElementById('oindicator').innerHTML='O (CPU)';
+            document.getElementById('xindicator').setAttribute('playerindicator','PLAYER 1');
+            document.getElementById('oindicator').setAttribute('playerindicator','PLAYER 2');
+           
+        } else {
+            document.getElementById('xindicator').innerHTML='X (CPU)';
+            document.getElementById('tieindicator').innerHTML='TIES';
+            document.getElementById('oindicator').innerHTML='O (P1)';
+            document.getElementById('xindicator').setAttribute('playerindicator','PLAYER 2');
+            document.getElementById('oindicator').setAttribute('playerindicator','PLAYER 1');
+            
+        }
+    }
+
+ 
+
+    //setting event listener to each tic box for CPU
+    let ticboxes = document.querySelectorAll('.tic_box');
+    for (let element of ticboxes){
+        element.addEventListener('mouseover', hoverImage);
+    element.addEventListener('mouseout', mouseOutImage);
+        if(document.getElementById('xindicator').getAttribute('playerindicator')=="PLAYER 1"){
+            element.addEventListener('click',cputicboxclick,{once:true});
+        } else {
+            if(counter==1){
+                let updatedticboxes = document.querySelectorAll('.tic_box');
+                let untouchedticboxes=[];
+                for  (let el of updatedticboxes){
+                    if(!el.classList.contains('markedx')&&!el.classList.contains('markedo')){
+                        untouchedticboxes.push(el.getAttribute('id'));
+                       
+                    }
+                }
+                if(counter<10){
+                let randomIndex = parseInt((Math.random()*100)%untouchedticboxes.length);
+                
+                let randomID = untouchedticboxes[randomIndex];
+                let randomticbox = document.getElementById(randomID);
+                let newimage = document.createElement('img');
+                newimage.src = 'assets/icon-x.svg';
+                randomticbox.appendChild(newimage);
+                randomticbox.classList.add('markedx');
+                randomticbox.removeEventListener('mouseover',hoverImage);
+                untouchedticboxes.splice(randomIndex,1);
+                console.log(untouchedticboxes);
+                
+                counter++;
+                document.querySelector('.current_turn').src = 'assets/icon-o.svg';
+                }
+                
+            }
+            element.addEventListener('click', cpufromo,{once:true})
+        }
+    }
+}
+
+document.getElementById('cpu').addEventListener('click', startcpugame);
+
 //adding eventlistener to quit game
 
 function quitGame() {
@@ -232,6 +366,13 @@ function nextMatch(){
     let ticbox = document.querySelectorAll('.tic_box');
     for (let element of ticbox){
         if(element.classList.contains('markedx')||element.classList.contains('markedo')){
+            if(document.getElementById('xindicator').innerHTML=='X (CPU)'||document.getElementById('oindicator').innerHTML=='O (CPU)'){
+                if(document.getElementById('xindicator').getAttribute('playerindicator')=='PLAYER 1'){
+                    element.addEventListener('click', cputicboxclick,{once:true});  
+                } else {
+                    element.addEventListener('click', cpufromo,{once:true});
+                }  
+            }
             element.addEventListener('mouseover',hoverImage);
             element.style.backgroundColor = '#1F3641';
             element.style.backgroundImage = 'none';
@@ -239,6 +380,33 @@ function nextMatch(){
             element.classList.remove('markedx');
             element.classList.remove('markedo');
         }
+    }
+    if(document.getElementById('xindicator').innerHTML=='X (CPU)'||document.getElementById('oindicator').innerHTML=='O (CPU)'&&document.getElementById('oindicator').getAttribute('playerindicator')=='PLAYER 1'){
+        let updatedticboxes = document.querySelectorAll('.tic_box');
+                let untouchedticboxes=[];
+                for  (let el of updatedticboxes){
+                    if(!el.classList.contains('markedx')&&!el.classList.contains('markedo')){
+                        untouchedticboxes.push(el.getAttribute('id'));
+                       
+                    }
+                }
+                if(counter<10){
+                let randomIndex = parseInt((Math.random()*100)%untouchedticboxes.length);
+                
+                let randomID = untouchedticboxes[randomIndex];
+                let randomticbox = document.getElementById(randomID);
+                let newimage = document.createElement('img');
+                newimage.src = 'assets/icon-x.svg';
+                randomticbox.appendChild(newimage);
+                randomticbox.classList.add('markedx');
+                randomticbox.removeEventListener('mouseover',hoverImage);
+                untouchedticboxes.splice(randomIndex,1);
+                console.log(untouchedticboxes);
+                
+                counter++;
+                document.querySelector('.current_turn').src = 'assets/icon-o.svg';
+                }
+                
     }
     document.querySelector('.popup_outer').style.display='none';
     document.querySelector('.current_turn').src = 'assets/icon-x.svg';
@@ -249,7 +417,7 @@ document.getElementById('next-round').addEventListener('click', nextMatch)
 //adding mouseover on ticbox;
 
 function hoverImage (event){
-    let hoverimg = document.createElement('img');
+    
     
     if(!event.target.classList.contains('markedx')&&!event.target.classList.contains('markedo')){
         if(counter%2==1){
@@ -267,3 +435,93 @@ function mouseOutImage (event) {
     }
 }
 
+// function for cpi ticbox event
+
+function cputicboxclick(ev){
+            
+   
+        if(counter%2==1){
+            if(!ev.target.classList.contains('markedx')&&!ev.target.classList.contains('markedo')){
+            ev.target.removeEventListener('mouseover',hoverImage);
+            let ximage = document.createElement('img');
+            ximage.src = 'assets/icon-x.svg';
+            ev.target.appendChild(ximage);
+            ev.target.classList.add('markedx');
+            //document.querySelector('.current_turn').src='assets/icon-o.svg';
+
+            counter++;
+        }}
+        wincpu();
+        
+
+
+        if(!checkwin()&&counter!=1){
+        let updatedticboxes = document.querySelectorAll('.tic_box');
+        let untouchedticboxes=[];
+        for  (let el of updatedticboxes){
+            if(!el.classList.contains('markedx')&&!el.classList.contains('markedo')){
+                untouchedticboxes.push(el.getAttribute('id'));
+               
+            }
+        }
+        if(counter<10){
+        let randomIndex = parseInt((Math.random()*100)%untouchedticboxes.length);
+        
+        let randomID = untouchedticboxes[randomIndex];
+        let randomticbox = document.getElementById(randomID);
+        let newimage = document.createElement('img');
+        newimage.src = 'assets/icon-o.svg';
+        randomticbox.appendChild(newimage);
+        randomticbox.classList.add('markedo');
+        randomticbox.removeEventListener('mouseover',hoverImage);
+        untouchedticboxes.splice(randomIndex,1);
+        console.log(untouchedticboxes);
+        
+        counter++;
+        }
+        wincpu();
+    }
+  } 
+
+//eventlistener for cpufromo
+function cpufromo(ev){
+    if(counter%2==0){
+        if(!ev.target.classList.contains('markedx')&&!ev.target.classList.contains('markedo')){
+        ev.target.removeEventListener('mouseover',hoverImage);
+        let ximage = document.createElement('img');
+        ximage.src = 'assets/icon-o.svg';
+        ev.target.appendChild(ximage);
+        ev.target.classList.add('markedo');
+        document.querySelector('.current_turn').src='assets/icon-o.svg';
+        counter++;
+    }}
+    wincpu();
+    if(counter%2==1){
+        let updatedticboxes = document.querySelectorAll('.tic_box');
+        let untouchedticboxes=[];
+        for  (let el of updatedticboxes){
+            if(!el.classList.contains('markedx')&&!el.classList.contains('markedo')){
+                untouchedticboxes.push(el.getAttribute('id'));
+               
+            }
+        }
+        if(counter<10){
+        let randomIndex = parseInt((Math.random()*100)%untouchedticboxes.length);
+        
+        let randomID = untouchedticboxes[randomIndex];
+        let randomticbox = document.getElementById(randomID);
+        let newimage = document.createElement('img');
+        newimage.src = 'assets/icon-x.svg';
+        randomticbox.appendChild(newimage);
+        randomticbox.classList.add('markedx');
+        randomticbox.removeEventListener('mouseover',hoverImage);
+        untouchedticboxes.splice(randomIndex,1);
+        console.log(untouchedticboxes);
+        
+        counter++;
+        document.querySelector('.current_turn').src = 'assets/icon-o.svg';
+        }
+        
+    }
+    wincpu();
+}
