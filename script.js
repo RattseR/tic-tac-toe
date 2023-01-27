@@ -128,6 +128,7 @@ function startplayergame(){
                 ximage.src = 'assets/icon-x.svg';
                 ev.target.appendChild(ximage);
                 ev.target.classList.add('markedx');
+                ev.target.style.backgroundImage = 'none';
                 document.querySelector('.current_turn').src='assets/icon-o.svg';
                 counter++;
                }
@@ -137,6 +138,7 @@ function startplayergame(){
                 let oimage = document.createElement('img');
                 oimage.src = 'assets/icon-o.svg';
                 ev.target.appendChild(oimage);
+                ev.target.style.backgroundImage = 'none';
                 ev.target.classList.add('markedo');
                 document.querySelector('.current_turn').src='assets/icon-x.svg';
                 counter++;
@@ -269,14 +271,14 @@ function startcpugame(){
         
     } else {
         document.getElementById('game-box').style.display = 'flex';
-        //document.getElementById('main-container').style.display = 'none';
+        document.getElementById('main-container').style.display = 'none';
         if(document.querySelector('.active').id=="xmark"){
             document.getElementById('xindicator').innerHTML='X (P1)';
             document.getElementById('tieindicator').innerHTML='TIES';
             document.getElementById('oindicator').innerHTML='O (CPU)';
             document.getElementById('xindicator').setAttribute('playerindicator','PLAYER 1');
             document.getElementById('oindicator').setAttribute('playerindicator','PLAYER 2');
-           
+            document.querySelector('.current_turn').src='assets/icon-x.svg'
         } else {
             document.getElementById('xindicator').innerHTML='X (CPU)';
             document.getElementById('tieindicator').innerHTML='TIES';
@@ -292,6 +294,7 @@ function startcpugame(){
     //setting event listener to each tic box for CPU
     let ticboxes = document.querySelectorAll('.tic_box');
     for (let element of ticboxes){
+       // element.addEventListener('click', cpufromo);
         element.addEventListener('mouseover', hoverImage);
     element.addEventListener('mouseout', mouseOutImage);
         if(document.getElementById('xindicator').getAttribute('playerindicator')=="PLAYER 1"){
@@ -316,6 +319,7 @@ function startcpugame(){
                 randomticbox.appendChild(newimage);
                 randomticbox.classList.add('markedx');
                 randomticbox.removeEventListener('mouseover',hoverImage);
+                randomticbox.removeEventListener('click', cputicboxclick);
                 untouchedticboxes.splice(randomIndex,1);
                 console.log(untouchedticboxes);
                 
@@ -329,7 +333,7 @@ function startcpugame(){
     }
 }
 
-document.getElementById('cpu').addEventListener('click', startcpugame);
+document.getElementById('cpu').addEventListener('click', startcpugame,{once:true});
 
 //adding eventlistener to quit game
 
@@ -343,8 +347,10 @@ function quitGame() {
             element.querySelector('img').remove();
             element.classList.remove('markedx');
             element.classList.remove('markedo');
+            element.removeEventListener('click', cputicboxclick);
         }
     }
+    document.getElementById('cpu').addEventListener('click', startcpugame,{once:true});
     document.getElementById('player').addEventListener ('click', startplayergame,{once : true});
     document.getElementById('xresult').innerHTML='0';
     document.getElementById('oresult').innerHTML='0';
@@ -364,7 +370,9 @@ document.getElementById('quit-game').addEventListener('click',quitGame);
 function nextMatch(){
     counter = 1;
     let ticbox = document.querySelectorAll('.tic_box');
+    
     for (let element of ticbox){
+        
         if(element.classList.contains('markedx')||element.classList.contains('markedo')){
             if(document.getElementById('xindicator').innerHTML=='X (CPU)'||document.getElementById('oindicator').innerHTML=='O (CPU)'){
                 if(document.getElementById('xindicator').getAttribute('playerindicator')=='PLAYER 1'){
@@ -382,6 +390,7 @@ function nextMatch(){
         }
     }
     if(document.getElementById('xindicator').innerHTML=='X (CPU)'||document.getElementById('oindicator').innerHTML=='O (CPU)'&&document.getElementById('oindicator').getAttribute('playerindicator')=='PLAYER 1'){
+        
         let updatedticboxes = document.querySelectorAll('.tic_box');
                 let untouchedticboxes=[];
                 for  (let el of updatedticboxes){
@@ -409,7 +418,7 @@ function nextMatch(){
                 
     }
     document.querySelector('.popup_outer').style.display='none';
-    document.querySelector('.current_turn').src = 'assets/icon-x.svg';
+    //document.querySelector('.current_turn').src = 'assets/icon-x.svg';
 }
 
 document.getElementById('next-round').addEventListener('click', nextMatch)
@@ -435,7 +444,7 @@ function mouseOutImage (event) {
     }
 }
 
-// function for cpi ticbox event
+// function for cpu ticbox event
 
 function cputicboxclick(ev){
             
@@ -474,6 +483,8 @@ function cputicboxclick(ev){
         randomticbox.appendChild(newimage);
         randomticbox.classList.add('markedo');
         randomticbox.removeEventListener('mouseover',hoverImage);
+        randomticbox.removeEventListener('click', cpufromo);
+        randomticbox.removeEventListener('click', cputicboxclick);
         untouchedticboxes.splice(randomIndex,1);
         console.log(untouchedticboxes);
         
