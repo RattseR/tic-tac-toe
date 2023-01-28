@@ -85,6 +85,35 @@ nextgame.appendChild(nextround);
 let body = document.getElementsByTagName('body');
 body[0].appendChild(popupouter);
 
+//creating popup window for restart button 
+
+let popupouterRes = document.createElement('div');
+popupouterRes.classList.add('popup_outer_res');
+let popupmainRes = document.createElement('div');
+popupmainRes.classList.add('popup_main_res');
+let restartQuestion = document.createElement('p');
+restartQuestion.classList.add('restart_question');
+restartQuestion.innerHTML = 'RESTART GAME?';
+
+let restartGame = document.createElement('div');
+restartGame.setAttribute('class', 'restart_game');
+let cancelRes = document.createElement('button');
+cancelRes.setAttribute('class','cancel_res');
+cancelRes.setAttribute('id','cancel-res');
+cancelRes.innerHTML="NO, CANCEL";
+let acceptRes = document.createElement('button');
+acceptRes.setAttribute('class','accept_res');
+acceptRes.setAttribute('id','accept-res');
+acceptRes.innerHTML="YES, RESTART";
+
+popupouterRes.appendChild(popupmainRes);
+popupmainRes.appendChild(restartQuestion);
+popupmainRes.appendChild(restartGame);
+restartGame.append(cancelRes);
+restartGame.appendChild(acceptRes);
+
+body[0].appendChild(popupouterRes);
+
 // setting event listener to new game vs player
 
 
@@ -282,7 +311,7 @@ function wincpu(){
 function startcpugame(){
     if(!document.querySelector('.active')){
         alert('pick sign');
-        
+        document.getElementById('cpu').addEventListener('click', startcpugame,{once:true});
     } else {
         document.getElementById('game-box').style.display = 'flex';
         document.getElementById('main-container').style.display = 'none';
@@ -565,3 +594,22 @@ function cpufromo(ev){
     }
     wincpu();
 }
+
+
+// adding restart game button eventlistener
+
+function restartPopup(){
+    document.querySelector('.popup_outer_res').style.display = 'flex';
+}
+
+document.getElementById('refresh_button').addEventListener('click',restartPopup);
+
+//adding event listener to cancer restart button 
+
+function cancelRestart(){
+    document.querySelector('.popup_outer_res').style.display = 'none';
+}
+
+document.getElementById('cancel-res').addEventListener('click', cancelRestart);
+
+//adding event listener to acceptrestart button
