@@ -229,7 +229,13 @@ function wincpu(){
                 currentticboxes[element[2]-1].querySelector('img').classList.add('darksvg');
                 document.getElementById('xresult').innerHTML=parseInt(document.getElementById('xresult').innerHTML)+1;
                 resultoutput.style.display='block';
-                resultoutput.innerHTML = document.getElementById('xindicator').getAttribute('playerindicator')+' WINS!';
+
+                if(document.getElementById('xindicator').getAttribute('playerindicator')=="PLAYER 1"){
+                    resultoutput.innerHTML = 'YOU WIN!';
+                } else {
+                    resultoutput.innerHTML = 'OH NO, YOU LOST...'; 
+                }   
+
                 popupouter.style.display = 'flex';
                 winnerparagraph.style.color = '#31C3BD';
                 winnerparagraph.innerHTML = 'TAKES THE ROUND';
@@ -245,7 +251,13 @@ function wincpu(){
                 currentticboxes[element[2]-1].querySelector('img').classList.add('darksvg');
                 document.getElementById('oresult').innerHTML=parseInt(document.getElementById('oresult').innerHTML)+1;
                 resultoutput.style.display='block';
-                resultoutput.innerHTML = document.getElementById('oindicator').getAttribute('playerindicator')+' WINS!';
+
+                if(document.getElementById('oindicator').getAttribute('playerindicator')=="PLAYER 1"){
+                    resultoutput.innerHTML ='YOU WIN!';
+                } else {
+                    resultoutput.innerHTML ='OH NO, YOU LOST...'
+                }
+                
                 popupouter.style.display = 'flex';
                 winnerparagraph.style.color = '#F2B137';
                 winnerparagraph.innerHTML = 'TAKES THE ROUND';
@@ -294,9 +306,9 @@ function startcpugame(){
     //setting event listener to each tic box for CPU
     let ticboxes = document.querySelectorAll('.tic_box');
     for (let element of ticboxes){
-       // element.addEventListener('click', cpufromo);
+       
         element.addEventListener('mouseover', hoverImage);
-    element.addEventListener('mouseout', mouseOutImage);
+        element.addEventListener('mouseout', mouseOutImage);
         if(document.getElementById('xindicator').getAttribute('playerindicator')=="PLAYER 1"){
             element.addEventListener('click',cputicboxclick,{once:true});
         } else {
@@ -320,6 +332,7 @@ function startcpugame(){
                 randomticbox.classList.add('markedx');
                 randomticbox.removeEventListener('mouseover',hoverImage);
                 randomticbox.removeEventListener('click', cputicboxclick);
+                randomticbox.removeEventListener('click', cpufromo);
                 untouchedticboxes.splice(randomIndex,1);
                 console.log(untouchedticboxes);
                 
@@ -328,7 +341,8 @@ function startcpugame(){
                 }
                 
             }
-            element.addEventListener('click', cpufromo,{once:true})
+            if(!element.classList.contains('markedx')&&!element.classList.contains('markedo'))
+            element.addEventListener('click', cpufromo,{once:true});
         }
     }
 }
@@ -409,6 +423,8 @@ function nextMatch(){
                 randomticbox.appendChild(newimage);
                 randomticbox.classList.add('markedx');
                 randomticbox.removeEventListener('mouseover',hoverImage);
+                randomticbox.removeEventListener('click', cputicboxclick);
+                randomticbox.removeEventListener('click', cpufromo);
                 untouchedticboxes.splice(randomIndex,1);
                 console.log(untouchedticboxes);
                 
@@ -456,7 +472,7 @@ function cputicboxclick(ev){
             ximage.src = 'assets/icon-x.svg';
             ev.target.appendChild(ximage);
             ev.target.classList.add('markedx');
-            //document.querySelector('.current_turn').src='assets/icon-o.svg';
+            document.querySelector('.current_turn').src='assets/icon-x.svg';
 
             counter++;
         }}
@@ -502,6 +518,7 @@ function cpufromo(ev){
         let ximage = document.createElement('img');
         ximage.src = 'assets/icon-o.svg';
         ev.target.appendChild(ximage);
+        ev.target.style.backgroundImage=='none';
         ev.target.classList.add('markedo');
         document.querySelector('.current_turn').src='assets/icon-o.svg';
         counter++;
@@ -526,6 +543,8 @@ function cpufromo(ev){
         randomticbox.appendChild(newimage);
         randomticbox.classList.add('markedx');
         randomticbox.removeEventListener('mouseover',hoverImage);
+        randomticbox.removeEventListener('click', cpufromo);
+        randomticbox.removeEventListener('click', cputicboxclick);
         untouchedticboxes.splice(randomIndex,1);
         console.log(untouchedticboxes);
         
