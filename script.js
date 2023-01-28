@@ -89,6 +89,8 @@ body[0].appendChild(popupouter);
 
 
 function startplayergame(){
+       document.querySelector('.current_turn').src = 'assets/icon-x.svg';
+    
     if(!document.querySelector('.active')){
         alert('pick sign');
         document.getElementById('player').addEventListener('click', startplayergame,{once : true});
@@ -341,8 +343,12 @@ function startcpugame(){
                 }
                 
             }
-            if(!element.classList.contains('markedx')&&!element.classList.contains('markedo'))
+            if(!element.classList.contains('markedx')&&!element.classList.contains('markedo')){
             element.addEventListener('click', cpufromo,{once:true});
+            }
+            if(element.classList.contains('markedx')||element.classList.contains('markedo')){
+                element.removeEventListener('mouseover',hoverImage);
+                }
         }
     }
 }
@@ -362,6 +368,7 @@ function quitGame() {
             element.classList.remove('markedx');
             element.classList.remove('markedo');
             element.removeEventListener('click', cputicboxclick);
+            element.removeEventListener('click', cpufromo);
         }
     }
     document.getElementById('cpu').addEventListener('click', startcpugame,{once:true});
@@ -383,6 +390,8 @@ document.getElementById('quit-game').addEventListener('click',quitGame);
 
 function nextMatch(){
     counter = 1;
+         document.querySelector('.current_turn').src = 'assets/icon-x.svg';
+    
     let ticbox = document.querySelectorAll('.tic_box');
     
     for (let element of ticbox){
@@ -434,7 +443,7 @@ function nextMatch(){
                 
     }
     document.querySelector('.popup_outer').style.display='none';
-    //document.querySelector('.current_turn').src = 'assets/icon-x.svg';
+     
 }
 
 document.getElementById('next-round').addEventListener('click', nextMatch)
@@ -505,6 +514,7 @@ function cputicboxclick(ev){
         console.log(untouchedticboxes);
         
         counter++;
+        document.querySelector('.current_turn').src='assets/icon-x.svg';
         }
         wincpu();
     }
@@ -518,7 +528,7 @@ function cpufromo(ev){
         let ximage = document.createElement('img');
         ximage.src = 'assets/icon-o.svg';
         ev.target.appendChild(ximage);
-        ev.target.style.backgroundImage=='none';
+        ev.target.style.backgroundImage='none';
         ev.target.classList.add('markedo');
         document.querySelector('.current_turn').src='assets/icon-o.svg';
         counter++;
