@@ -419,6 +419,7 @@ document.getElementById('quit-game').addEventListener('click',quitGame);
 
 function nextMatch(){
     counter = 1;
+        document.querySelector('.popup_outer_res').style.display = 'none';
          document.querySelector('.current_turn').src = 'assets/icon-x.svg';
     
     let ticbox = document.querySelectorAll('.tic_box');
@@ -613,3 +614,5 @@ function cancelRestart(){
 document.getElementById('cancel-res').addEventListener('click', cancelRestart);
 
 //adding event listener to acceptrestart button
+
+document.getElementById('accept-res').addEventListener('click', nextMatch);
