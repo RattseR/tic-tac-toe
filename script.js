@@ -396,9 +396,10 @@ function quitGame() {
             element.querySelector('img').remove();
             element.classList.remove('markedx');
             element.classList.remove('markedo');
-            element.removeEventListener('click', cputicboxclick);
-            element.removeEventListener('click', cpufromo);
+            
         }
+        element.removeEventListener('click', cputicboxclick);
+        element.removeEventListener('click', cpufromo);
     }
     document.getElementById('cpu').addEventListener('click', startcpugame,{once:true});
     document.getElementById('player').addEventListener ('click', startplayergame,{once : true});
